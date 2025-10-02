@@ -38,7 +38,7 @@ body {
     max-height: 90vh;
     position: relative;
     z-index: 1;
-    background: rgba(0, 0, 0, 0.5); /* コンテンツの背景を半透明にしてマトリックスが見えるように */
+    background: rgba(0, 0, 0, 0.5);
     border-radius: 10px;
 }
 
