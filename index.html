@@ -1,33 +1,88 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cosmic News Hub</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
-</head>
-<body>
-    <canvas id="matrix-background"></canvas>
-    <div class="app-container">
-        <header>
-            <h1 class="title">Cosmic News Hub</h1>
-            <p class="subtitle">最新の宇宙ニュースをお届けします</p>
-        </header>
+document.addEventListener('DOMContentLoaded', () => {
+    const newsFeedEl = document.getElementById('news-feed');
+    const refreshBtn = document.getElementById('refresh-btn');
+    
+    // マトリックス背景の描画
+    const canvas = document.getElementById('matrix-background');
+    const ctx = canvas.getContext('2d');
+    
+    let w = canvas.width = window.innerWidth;
+    let h = canvas.height = window.innerHeight;
+    let yPositions = Array(300).join(0).split('');
+    
+    function drawMatrix() {
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+        ctx.fillRect(0, 0, w, h);
+        ctx.fillStyle = '#0F0';
+        ctx.font = '15px monospace';
+        yPositions.map((y, index) => {
+            const text = String.fromCharCode(65 + Math.random() * 33);
+            const x = index * 10;
+            ctx.fillText(text, x, y);
+            if (y > 100 + Math.random() * 10000) {
+                yPositions[index] = 0;
+            } else {
+                yPositions[index] = y + 10;
+            }
+        });
+    }
 
-        <main id="news-feed">
-            <p class="loading-message">ニュースを読み込んでいます...</p>
-        </main>
+    // ウィンドウのリサイズ時にキャンバスサイズを調整
+    window.addEventListener('resize', () => {
+        w = canvas.width = window.innerWidth;
+        h = canvas.height = window.innerHeight;
+    });
+
+    setInterval(drawMatrix, 50);
+
+
+    // ニュースを取得する関数
+    async function fetchNews() {
+        newsFeedEl.innerHTML = '<p class="loading-message">ニュースを読み込んでいます...</p>';
         
-        <button id="refresh-btn">ニュースを更新</button>
+        // RSS2JSON APIを使用
+        const rssUrl = 'https://www.nasa.gov/rss/dyn/breaking_news.rss';
+        const proxyUrl = `https://api.rss2json.com/v1/api.json?rss_url=${rssUrl}`;
 
-        <footer>
-            <p>プログラミング：hoshizora2307</p>
-            <p>監修：高瀬敏行</p>
-            <p>権利者：志賀高原SpaceLab</p>
-        </footer>
-    </div>
+        try {
+            const response = await fetch(proxyUrl);
+            const data = await response.json();
+            
+            if (data.status === 'ok') {
+                displayNews(data.items);
+            } else {
+                newsFeedEl.innerHTML = '<p class="loading-message">ニュースの取得に失敗しました。</p>';
+            }
+        } catch (error) {
+            console.error('Error fetching news:', error);
+            newsFeedEl.innerHTML = '<p class="loading-message">ニュースの取得に失敗しました。ネットワーク接続を確認してください。</p>';
+        }
+    }
 
-    <script src="script.js"></script>
-</body>
-</html>
+    // ニュースを表示する関数
+    function displayNews(items) {
+        newsFeedEl.innerHTML = '';
+        if (items.length === 0) {
+            newsFeedEl.innerHTML = '<p class="loading-message">現在、新しいニュースはありません。</p>';
+            return;
+        }
+
+        items.forEach(item => {
+            const newsCard = document.createElement('div');
+            newsCard.classList.add('news-card');
+            
+            const description = item.description.substring(0, 150) + '...';
+
+            newsCard.innerHTML = `
+                <h2>${item.title}</h2>
+                <p>${description}</p>
+                <a href="${item.link}" target="_blank">記事を読む →</a>
+            `;
+            
+            newsFeedEl.appendChild(newsCard);
+        });
+    }
+
+    fetchNews();
+    refreshBtn.addEventListener('click', fetchNews);
+});
