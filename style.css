@@ -1,6 +1,6 @@
 body, html {
     font-family: 'M PLUS Rounded 1c', sans-serif;
-    background: linear-gradient(to bottom, #f0e6ff, #d2f4ff, #a4eaff); /* 明るく可愛らしいグラデーション */
+    background: linear-gradient(to bottom, #f0e6ff, #d2f4ff, #a4eaff);
     color: #333;
     display: flex;
     justify-content: center;
@@ -176,9 +176,10 @@ footer {
 
 @keyframes iwaya-move {
     0% { transform: translate(0vw, 0vh) rotate(0deg); }
-    25% { transform: translate(-15vw, -5vh) rotate(-15deg); }
-    50% { transform: translate(-8vw, -20vh) rotate(10deg); }
-    75% { transform: translate(-25vw, -10vh) rotate(-5deg); }
+    20% { transform: translate(-15vw, -5vh) rotate(-15deg); }
+    40% { transform: translate(-8vw, -20vh) rotate(10deg); }
+    60% { transform: translate(-25vw, -10vh) rotate(-5deg); }
+    80% { transform: translate(-12vw, -25vh) rotate(20deg); }
     100% { transform: translate(0vw, 0vh) rotate(0deg); }
 }
 
