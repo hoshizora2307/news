@@ -19,36 +19,14 @@ body {
     position: relative;
 }
 
-body::before,
-body::after {
-    content: '';
-    position: absolute;
-    border-radius: 50%;
-    opacity: 0.1;
+#matrix-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     z-index: -1;
-}
-
-body::before {
-    width: 300px;
-    height: 300px;
-    background: radial-gradient(var(--highlight-color), transparent);
-    top: -100px;
-    left: -100px;
-    animation: glow-move 10s ease-in-out infinite alternate;
-}
-
-body::after {
-    width: 400px;
-    height: 400px;
-    background: radial-gradient(var(--text-color), transparent);
-    bottom: -150px;
-    right: -150px;
-    animation: glow-move 12s ease-in-out infinite reverse;
-}
-
-@keyframes glow-move {
-    from { transform: translate(0, 0); }
-    to { transform: translate(150px, 150px); }
+    opacity: 0.2;
 }
 
 .app-container {
@@ -56,8 +34,12 @@ body::after {
     width: 90%;
     padding: 30px;
     box-sizing: border-box;
-    overflow-y: auto; /* スクロールを可能に */
-    max-height: 90vh; /* 画面の高さに合わせる */
+    overflow-y: auto;
+    max-height: 90vh;
+    position: relative;
+    z-index: 1;
+    background: rgba(0, 0, 0, 0.5); /* コンテンツの背景を半透明にしてマトリックスが見えるように */
+    border-radius: 10px;
 }
 
 .title {
