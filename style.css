@@ -1,206 +1,57 @@
-body, html {
-    font-family: 'M PLUS Rounded 1c', sans-serif;
-    background: linear-gradient(to bottom, #f0e6ff, #d2f4ff, #a4eaff); /* 明るく可愛らしいグラデーション */
-    color: #333;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    margin: 0;
-    text-align: center;
-    overflow-x: hidden;
-    overflow-y: auto; /* ここを修正 */
-    position: relative;
-    padding: 20px 0;
-    box-sizing: border-box;
-}
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌟 今夜の星空指数 🌌</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🌟 今夜の星空指数 🌌</h1>
+            <p>志賀高原SpaceLab観測地点</p>
+            <p id="date"></p>
+            <p id="time-display"></p>
+        </header>
 
-.container {
-    background-color: rgba(255, 255, 255, 0.9);
-    padding: 30px;
-    border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-    backdrop-filter: blur(5px);
-    border: 2px solid rgba(255, 255, 255, 1);
-    max-width: 400px;
-    width: 90%;
-    margin: auto;
-    z-index: 1;
-    position: relative;
-    box-sizing: border-box;
-}
+        <main>
+            <div id="star-index-display">
+                <div id="index-value"></div>
+                <div id="index-message"></div>
+                <div id="cute-character"></div>
+            </div>
 
-header h1 {
-    color: #6a5acd;
-    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
-    font-size: 2.2em;
-    margin-bottom: 5px;
-}
+            <div id="details">
+                <h2>詳細</h2>
+                <p>天気: <span id="weather">--</span></p>
+                <p>雲の量: <span id="clouds">--</span></p>
+                <p>月齢: <span id="moon-phase">--</span></p>
+            </div>
+            
+            <button id="refresh-btn">最新の情報に更新</button>
+        </main>
+        
+        <div id="palace-hotel-weather" class="weather-box">
+            <h3>志賀パレスホテル付近の天気</h3>
+            <p id="palace-weather">--</p>
+            <p>気温: <span id="palace-temp">--°C</span></p>
+            <p>湿度: <span id="palace-humidity">--%</span></p>
+        </div>
 
-header p {
-    color: #555;
-    font-size: 0.9em;
-}
+        <footer>
+            <p>製作者：hoshizora2307</p>
+            <p>天気監修：高瀬 敏行</p>
+            <p>著作権者：株式会社S&T観光開発</p>
+        </footer>
+    </div>
+    
+    <img src="takase02.png" alt="takase02" id="takase02">
+    <img src="iwaya02.png" alt="iwaya02" id="iwaya02">
 
-#star-index-display {
-    padding: 20px 0;
-    border-bottom: 1px dashed #ccc;
-    position: relative;
-}
-
-#index-value {
-    font-size: 4.5em;
-    font-weight: bold;
-    color: #ff69b4;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-#index-message {
-    font-size: 1.3em;
-    color: #6a5acd;
-    margin-top: 10px;
-}
-
-#cute-character {
-    width: 100px;
-    height: 100px;
-    margin: 20px auto;
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-    transition: transform 0.5s ease;
-    animation: float-animation 3s ease-in-out infinite alternate;
-}
-
-@keyframes float-animation {
-    0% { transform: translateY(0px) rotate(0deg); }
-    100% { transform: translateY(-15px) rotate(-5deg); }
-}
-
-#details {
-    margin-top: 20px;
-}
-
-#details h2 {
-    color: #555;
-    font-size: 1.2em;
-    border-bottom: 2px solid #ff91a4;
-    display: inline-block;
-    padding-bottom: 5px;
-}
-
-#details p {
-    margin: 5px 0;
-    color: #555;
-}
-
-#refresh-btn {
-    padding: 12px 24px;
-    margin-top: 20px;
-    border: none;
-    background-color: #ff91a4;
-    color: white;
-    border-radius: 25px;
-    cursor: pointer;
-    font-size: 1.1em;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-#refresh-btn:hover {
-    transform: scale(1.05);
-    background-color: #ff7f95;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-}
-
-.weather-box {
-    background-color: rgba(255, 255, 255, 0.8);
-    padding: 15px;
-    border-radius: 15px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    margin-top: 20px;
-    text-align: left;
-}
-
-.weather-box h3 {
-    margin-top: 0;
-    color: #6a5acd;
-    font-size: 1.2em;
-    border-bottom: 1px solid #ff91a4;
-    padding-bottom: 5px;
-}
-
-.weather-box p {
-    margin: 5px 0;
-}
-
-footer {
-    font-size: 0.8em;
-    color: #888;
-    margin-top: 20px;
-}
-
-#takase02 {
-    position: fixed;
-    width: 80px;
-    height: 80px;
-    top: 5%;
-    left: 10%;
-    animation: takase-move 20s linear infinite, takase-blink 3s infinite;
-    z-index: 10;
-    object-fit: contain;
-}
-
-#iwaya02 {
-    position: fixed;
-    width: 80px;
-    height: 80px;
-    bottom: 5%;
-    right: 15%;
-    animation: iwaya-move 25s linear infinite, iwaya-pulse 4s infinite alternate; /* iwaya-pulseはそのまま */
-    z-index: 10;
-    object-fit: contain;
-}
-
-@keyframes takase-move {
-    0% { transform: translate(0vw, 0vh) rotate(0deg); }
-    25% { transform: translate(20vw, 15vh) rotate(30deg); }
-    50% { transform: translate(5vw, 30vh) rotate(-20deg); }
-    75% { transform: translate(30vw, 20vh) rotate(15deg); }
-    100% { transform: translate(0vw, 0vh) rotate(0deg); }
-}
-
-@keyframes takase-blink {
-    0%, 20%, 40%, 60%, 80%, 100% { opacity: 1; }
-    10%, 30%, 50%, 70%, 90% { opacity: 0; }
-}
-
-@keyframes iwaya-move {
-    0% { transform: translate(0vw, 0vh) rotate(0deg); }
-    15% { transform: translate(-20vw, -10vh) rotate(-45deg); }
-    30% { transform: translate(10vw, -25vh) rotate(20deg); }
-    45% { transform: translate(-30vw, 5vh) rotate(-60deg); }
-    60% { transform: translate(25vw, 30vh) rotate(35deg); }
-    75% { transform: translate(-15vw, 10vh) rotate(-20deg); }
-    100% { transform: translate(0vw, 0vh) rotate(0deg); }
-}
-
-@keyframes iwaya-pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.1); }
-    100% { transform: scale(1); }
-}
-
-@media (max-width: 768px) {
-    #takase02 {
-        width: 60px;
-        height: 60px;
-        top: 2%;
-        left: 5%;
-    }
-    #iwaya02 {
-        width: 60px;
-        height: 60px;
-        bottom: 2%;
-        right: 5%;
-    }
-}
+    <script src="script.js"></script>
+</body>
+</html>
